@@ -1,80 +1,787 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello, Deno</title>
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Regular.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Medium.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Recursive_Variable.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="https://demo-styles.deno.deno.net/styles.css">
-  <style>
-    img {
-      display: inline-block;
-      vertical-align: middle;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Self Raising Baker — Allergen Free &amp; Diabetic Friendly Bakes | Johannesburg</title>
+<meta name="description" content="The Self Raising Baker, Johannesburg. Gluten, dairy and egg free baked goods — cakes, cupcakes, meringues, quiches, pies, sandwich bread and biscotti. Allergen free, diabetic friendly, novelty cakes. For all your baking requirements." />
+<meta name="theme-color" content="#E8899C" />
+<meta property="og:title" content="The Self Raising Baker — For all your baking requirements" />
+<meta property="og:description" content="Gluten, dairy &amp; egg free baked goods. Allergen free · Diabetic friendly · Novelty cakes. Johannesburg, South Africa." />
+<meta property="og:image" content="assets/banner.jpg" />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧁</text></svg>" />
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+
+<!-- Installable app -->
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Self Raising Baker" />
 </head>
 
 <body>
-    <main>
-      <section>
-        <a href="https://deno.com/deploy">
-        </a>
-      <h1>
-        <p>
-          Hello, Deno!
+
+<!-- ══════════════ PRELOADER ══════════════ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <div class="preloader__oven">
+      <div class="cupcake">
+        <div class="cupcake__cherry"></div>
+        <div class="cupcake__frosting"></div>
+        <div class="cupcake__case"></div>
+      </div>
+      <div class="steam"><span></span><span></span><span></span></div>
+    </div>
+    <p class="preloader__text">Warming the oven<span class="dots"><i>.</i><i>.</i><i>.</i></span></p>
+    <div class="preloader__bar"><span></span></div>
+  </div>
+</div>
+
+<!-- ══════════════ DECOR ══════════════ -->
+<canvas id="sprinkles" class="sprinkles" aria-hidden="true"></canvas>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+<div class="scroll-progress"><span id="scrollBar"></span></div>
+
+<!-- ══════════════ NAV ══════════════ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="brand" aria-label="The Self Raising Baker — home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="42" height="42">
+          <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2" opacity=".35"/>
+          <path d="M14 30c0-6 4.5-10 10-10s10 4 10 10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M24 20c0-2.2 1.8-4 4-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="19" cy="26.5" r="1.4" fill="currentColor"/>
+          <circle cx="29" cy="26.5" r="1.4" fill="currentColor"/>
+          <path d="M12 33h24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand__text">
+        <span class="brand__name">The Self Raising Baker</span>
+        <span class="brand__tag">for all your baking requirements</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Main">
+      <a href="#story">Our Story</a>
+      <a href="#promise">Allergy Promise</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#order" class="nav__cta">Order</a>
+    </nav>
+
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ══════════════ HERO ══════════════ -->
+  <section class="hero" id="hero">
+    <!-- Tamsin's banner artwork is the hero: it already carries her wordmark,
+         the "Bakes that make a moment" headline and the booking line, so it is
+         shown whole and unobstructed. The heading below is for screen readers. -->
+    <h1 class="sr-only">The Self Raising Baker — bakes that make a moment</h1>
+
+    <div class="hero__frame">
+      <img src="assets/banner.jpg"
+           alt="The Self Raising Baker. Bakes that make a moment. Now booking custom orders."
+           class="hero__art" id="heroImg" fetchpriority="high" />
+
+      <!-- This line used to be baked into the banner. It lives in the markup now
+           so it can be edited, and so it stays readable on a phone. Sized and
+           placed to sit exactly where the artwork originally had it. -->
+      <p class="hero__line">Speciality cakes <span>·</span> gourmet cupcakes <span>·</span> bespoke bakes</p>
+    </div>
+
+    <div class="hero__cta">
+      <a href="#order" class="btn btn--primary magnetic" data-ripple>Start an order</a>
+      <a href="#menu" class="btn btn--ghost magnetic" data-ripple>See the menu</a>
+    </div>
+  </section>
+
+<!-- ══════════════ TICKER ══════════════ -->
+<div class="ticker" id="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <div class="ticker__group">
+      <span>Allergen Free</span><span>✦</span><span>Gluten Free</span><span>✦</span>
+      <span>Dairy Free</span><span>✦</span><span>Egg Free</span><span>✦</span>
+      <span>Diabetic Friendly</span><span>✦</span><span>Novelty Cakes</span><span>✦</span>
+      <span>Speciality Baker</span><span>✦</span><span>Made to Order</span><span>✦</span>
+    </div>
+    <div class="ticker__group">
+      <span>Allergen Free</span><span>✦</span><span>Gluten Free</span><span>✦</span>
+      <span>Dairy Free</span><span>✦</span><span>Egg Free</span><span>✦</span>
+      <span>Diabetic Friendly</span><span>✦</span><span>Novelty Cakes</span><span>✦</span>
+      <span>Speciality Baker</span><span>✦</span><span>Made to Order</span><span>✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ STORY ══════════════ -->
+<section class="section story" id="story">
+  <div class="wrap">
+    <div class="story__grid">
+      <div class="story__media reveal" data-reveal="left">
+        <div class="story__frame tilt">
+          <img src="assets/photos/tamsin-portrait.jpg" alt="Tamsin Strydom, baker and owner of The Self Raising Baker" width="819" height="1024" loading="lazy" />
+          <div class="story__sticker">
+            <span class="story__sticker-num" data-count="100" data-suffix="%">0</span>
+            <span class="story__sticker-label">free from<br />the top 3</span>
+          </div>
+        </div>
+        <div class="blob blob--1"></div>
+      </div>
+
+      <div class="story__text">
+        <p class="kicker reveal" data-reveal="up">Hello, I'm Tamsin</p>
+        <h2 class="h2 reveal" data-reveal="up" data-delay="80">
+          Baking that leaves <span class="hl">nobody out</span>
+        </h2>
+        <p class="reveal" data-reveal="up" data-delay="140">
+          The Self Raising Baker started the way most good bakeries do — with someone we love
+          who couldn't eat the cake at the party. So we learned to bake without gluten,
+          without dairy and without eggs, and refused to accept that "free-from" should
+          ever mean "second best".
         </p>
-      </h1>
-      <p>
-        This little example is being served by <a href="https://deno.com/">Deno</a>.
-        You can run it locally or in porduction on <a href="https://deno.com/deploy">Deno Deploy</a> or other hosting platforms.
+        <p class="reveal" data-reveal="up" data-delay="180">
+          Everything is mixed, baked and finished to order in our Johannesburg kitchen.
+          Tell us what you can't eat — and what you're celebrating — and we'll build the bake
+          around it.
+        </p>
+
+        <div class="stats reveal" data-reveal="up" data-delay="240">
+          <div class="stat">
+            <span class="stat__num" data-count="3" data-suffix="">0</span>
+            <span class="stat__label">Allergens always<br />kept out</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="13">0</span>
+            <span class="stat__label">Bakes on the<br />regular menu</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="48" data-suffix="h">0</span>
+            <span class="stat__label">Typical notice<br />for orders</span>
+          </div>
+        </div>
+
+        <blockquote class="quote reveal" data-reveal="up" data-delay="300">
+          <p>“For all your baking requirements — give us a call.”</p>
+          <cite>Tamsin Strydom, Baker &amp; Owner</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ALLERGY PROMISE ══════════════ -->
+<section class="section promise" id="promise">
+  <div class="wrap">
+    <header class="section__head">
+      <p class="kicker reveal" data-reveal="up">Our allergy promise</p>
+      <h2 class="h2 reveal" data-reveal="up" data-delay="80">
+        Free from the <span class="hl hl--pink">nasty stuff</span>, full of everything else
+      </h2>
+      <p class="section__lead reveal" data-reveal="up" data-delay="140">
+        Gluten, dairy and egg never enter the mix. Tick anything else you need to avoid and
+        the menu below will show you exactly what's safe for you.
       </p>
-      <ul>
-        <li>Run it locally with<code>deno task dev</code></li>
-        <li>Deploy it to <a href="https://deno.com/deploy">Deno Deploy</a> via the CLI by running<code>deno deploy</code></li>
-        <li>Run it locally and share it publically by running <code>deno deploy --connected</code></li>
-      </ul>
-    </section>
-      <hr>
-    <section>
-      <h2>What's next?</h2>
-      <p>
-        You can clone this example and deploy it to Deno Deploy in just a few clicks
-        <a href="https://app.deno.com/new?clone=https://github.com/denoland/examples&path=hello-world"><img src="https://deno.com/button" alt="Deploy on Deno"/></a>
+    </header>
+
+    <!-- ALWAYS FREE -->
+    <div class="pillars">
+      <article class="pillar reveal" data-reveal="up">
+        <span class="pillar__icon">🌾</span>
+        <h3>Gluten free</h3>
+        <p>Every bake on the menu, no exceptions and no cross-contaminated trays.</p>
+      </article>
+      <article class="pillar reveal" data-reveal="up" data-delay="80">
+        <span class="pillar__icon">🥛</span>
+        <h3>Dairy free</h3>
+        <p>No butter, no milk, no cream — just clever plant-based swaps that taste like the real thing.</p>
+      </article>
+      <article class="pillar reveal" data-reveal="up" data-delay="160">
+        <span class="pillar__icon">🥚</span>
+        <h3>Egg free</h3>
+        <p>Structure without eggs. Aquafaba, flax and a lot of trial and error.</p>
+      </article>
+      <article class="pillar reveal" data-reveal="up" data-delay="240">
+        <span class="pillar__icon">🩸</span>
+        <h3>Diabetic friendly</h3>
+        <p>Sugar-reduced and sugar-free bakes sweetened with alternatives that behave.</p>
+      </article>
+    </div>
+
+    <!-- INTERACTIVE ALLERGEN FILTER -->
+    <div class="filter reveal" data-reveal="up" id="filter">
+      <div class="filter__head">
+        <h3 class="filter__title">Build your safe list</h3>
+        <button class="filter__reset" id="filterReset" type="button">Reset</button>
+      </div>
+      <p class="filter__hint">The first three are always true — tap the rest to narrow the menu.</p>
+
+      <div class="chips" role="group" aria-label="Filter bakes by allergen">
+        <button class="chip is-locked is-on" data-allergen="gluten" disabled>
+          <span class="chip__ico">🌾</span> Gluten free <span class="chip__lock">always</span>
+        </button>
+        <button class="chip is-locked is-on" data-allergen="dairy" disabled>
+          <span class="chip__ico">🥛</span> Dairy free <span class="chip__lock">always</span>
+        </button>
+        <button class="chip is-locked is-on" data-allergen="egg" disabled>
+          <span class="chip__ico">🥚</span> Egg free <span class="chip__lock">always</span>
+        </button>
+        <button class="chip" data-allergen="nut"><span class="chip__ico">🥜</span> Nut free</button>
+        <button class="chip" data-allergen="soy"><span class="chip__ico">🫛</span> Soy free</button>
+        <button class="chip" data-allergen="sesame"><span class="chip__ico">🌰</span> Sesame free</button>
+        <button class="chip" data-allergen="sugar"><span class="chip__ico">🩸</span> No added sugar</button>
+        <button class="chip" data-allergen="vegan"><span class="chip__ico">🌱</span> Vegan</button>
+      </div>
+
+      <p class="filter__result" id="filterResult" role="status" aria-live="polite">
+        Showing all <b>13</b> bakes — everything on the menu is gluten, dairy and egg free.
       </p>
-      <ul>
-        <li>
-          <a href="https://docs.deno.com/examples">More examples in the Deno Docs</a>
-        </li>
-        <li>
-          <a href="https://deno.com/deploy">Deno Deploy Early Access</a>
-        </li>
-      </ul>
-    </section>
-    </main>
-    <hr>
-    <footer>
-      <section>
-      <ul class="flex-btwn">
-        <li>
-          <a href="https://deno.com">BlueSky</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Twitter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">YouTube</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Newsletter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Deno</a>
-        </li>
-      </ul>
-      </section>
-    </footer>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ MENU ══════════════ -->
+<section class="section menu" id="menu">
+  <div class="wrap">
+    <header class="section__head section__head--center">
+      <p class="kicker reveal" data-reveal="up">The menu</p>
+      <h2 class="h2 reveal" data-reveal="up" data-delay="80">What comes out of our oven</h2>
+      <p class="section__lead reveal" data-reveal="up" data-delay="140">
+        Made to order in Johannesburg. Collection or local delivery — prices on request unless shown.
+      </p>
+    </header>
+
+    <div class="grid" id="menuGrid">
+
+      <article class="card reveal" data-reveal="up" data-free="gluten,dairy,egg,nut,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-WA0036.jpg" alt="Novelty celebration cake by The Self Raising Baker" loading="lazy" />
+          <span class="card__flag">Signature</span>
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Celebration &amp; Novelty Cakes</h3>
+          <p class="card__desc">Birthdays, weddings, showers and the wonderfully weird. Send a photo or a theme and we'll sculpt it — free from.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>Vegan option</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="60" data-free="gluten,dairy,egg,nut,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-cupcakes.jpg" alt="Vanilla cupcakes with blush buttercream and dried flowers" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Cupcakes</h3>
+          <p class="card__desc">Boxes of 6 or 12. Vanilla, chocolate, red velvet, lemon — swirled high and finished to your colour scheme.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>Vegan option</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="120" data-free="gluten,dairy,egg,nut,soy,sesame,sugar">
+        <div class="card__media">
+          <img src="assets/photos/bake-meringues.jpg" alt="Blush meringue kisses on a ceramic plate" loading="lazy" />
+          <span class="card__flag">Diabetic friendly option</span>
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Meringues</h3>
+          <p class="card__desc">Naturally free-from and shatteringly light. Eton mess kits, pavlovas and little kisses — sugar-free on request.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>No added sugar option</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-free="gluten,dairy,egg,nut,soy,sesame">
+        <div class="card__media">
+          <img src="assets/photos/bake-sandwichbread.jpg" alt="Freshly baked gluten free sandwich loaf, sliced" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Sandwich Bread</h3>
+          <p class="card__desc">A soft, sliceable everyday loaf that doesn't crumble the moment it meets a filling. Baked fresh for your order.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="60" data-free="gluten,dairy,egg,nut,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-quiches.jpg" alt="Golden quiche in a fluted tart tin, sliced" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Quiches</h3>
+          <p class="card__desc">Three ways: <b>gluten free</b>, <b>gluten &amp; dairy free</b>, or <b>traditional</b>. Filled with whatever's in season.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free option</li><li>Egg free</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="120" data-free="gluten,dairy,egg,nut,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-pies.jpg" alt="Unbaked pie shells alongside a finished lattice pie" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Pie Shells &amp; Pies</h3>
+          <p class="card__desc">Sweet or savoury, ready to fill. Gluten free, or gluten <em>and</em> dairy free — shells or fully baked pies.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free option</li><li>Egg free</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-free="gluten,dairy,egg,nut,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-WA0031.jpg" alt="Hand-packed biscotti from The Self Raising Baker" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Double Chocolate Chip Biscotti</h3>
+          <p class="card__desc">Twice-baked, deeply chocolatey, made for dunking. Sold by the bag.</p>
+          <p class="card__price"><b>R50</b></p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>Vegan</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="60" data-free="gluten,dairy,egg,nut,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-WA0031.jpg" alt="Hand-packed biscotti from The Self Raising Baker" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Dark Chocolate &amp; Orange Biscotti</h3>
+          <p class="card__desc">Bitter chocolate, bright citrus zest, the same satisfying snap. Sold by the bag.</p>
+          <p class="card__price"><b>R50</b></p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>Vegan</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="120" data-free="gluten,dairy,egg,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-cookies.jpg" alt="Shortbread fingers and chocolate chunk cookies on a cooling rack" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Cookies &amp; Shortbread</h3>
+          <p class="card__desc">Chewy, crisp, dunkable. Ask for the nut-free batch if nuts are a concern.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li class="warn">Contains nuts</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-free="gluten,dairy,egg,nut,soy,sesame,sugar,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-diabetic.jpg" alt="Sugar-free celebration cake with blush frosting and berries" loading="lazy" />
+          <span class="card__flag card__flag--butter">Diabetic friendly</span>
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Diabetic Friendly Bakes</h3>
+          <p class="card__desc">Sugar-reduced and sugar-free versions of almost everything on this menu. Just say the word.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>No added sugar</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="60" data-free="gluten,dairy,egg,nut,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-loaves.jpg" alt="Seeded artisan loaves, one sliced open" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Breads &amp; Loaves</h3>
+          <p class="card__desc">Seeded loaves, rolls and breakfast breads, baked to order for the week.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>Vegan</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-delay="120" data-free="gluten,dairy,egg,soy,sesame,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-brownies.jpg" alt="Fudgy chocolate brownies cut into squares" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Brownies &amp; Traybakes</h3>
+          <p class="card__desc">Fudgy, blondie or rocky road — cut into squares, boxed and ready to share.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>Vegan</li></ul>
+      </article>
+
+      <article class="card reveal" data-reveal="up" data-free="gluten,dairy,egg,nut,soy,sesame,sugar,vegan">
+        <div class="card__media">
+          <img src="assets/photos/bake-wedding.jpg" alt="Two tier wedding cake with blush buttercream and dried flowers" loading="lazy" />
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">Wedding &amp; Tiered Cakes</h3>
+          <p class="card__desc">Consultation, tasting box and delivery. Everyone at the table can eat the same cake.</p>
+          <p class="card__price">Price on request</p>
+        </div>
+        <ul class="tags"><li>Gluten free</li><li>Dairy free</li><li>Egg free</li><li>Vegan option</li></ul>
+      </article>
+
+      <p class="grid__empty" id="gridEmpty" hidden>
+        Nothing on the menu matches every box you ticked — <button type="button" id="gridEmptyReset">reset the filters</button>
+        or <a href="#order">send us a message</a> and we'll bake something bespoke.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ GALLERY ══════════════ -->
+<section class="section gallery" id="gallery">
+  <div class="wrap">
+    <header class="section__head section__head--center">
+      <p class="kicker reveal" data-reveal="up">Straight out the oven</p>
+      <h2 class="h2 reveal" data-reveal="up" data-delay="80">A few things from the kitchen</h2>
+    </header>
+
+    <div class="mosaic" id="mosaic">
+      <figure class="tile reveal" data-reactions="43,15,54,15"><img src="assets/photos/oven-01.jpg" alt="A bake from The Self Raising Baker" width="736" height="552" loading="lazy" /></figure>
+      <figure class="tile reveal tile--xtall" data-reactions="44,12,44,24"><img src="assets/photos/oven-02.jpg" alt="A bake from The Self Raising Baker" width="666" height="1000" loading="lazy" /></figure>
+      <figure class="tile reveal tile--xtall" data-reactions="52,10,33,23"><img src="assets/photos/oven-03.jpg" alt="A bake from The Self Raising Baker" width="666" height="1000" loading="lazy" /></figure>
+      <figure class="tile reveal" data-reactions="18,9,32,23"><img src="assets/photos/oven-04.jpg" alt="A bake from The Self Raising Baker" width="1026" height="684" loading="lazy" /></figure>
+      <figure class="tile reveal" data-reactions="49,12,33,24"><img src="assets/photos/oven-05.jpg" alt="A bake from The Self Raising Baker" width="1200" height="800" loading="lazy" /></figure>
+      <figure class="tile reveal" data-reactions="22,15,46,20"><img src="assets/photos/oven-06.jpg" alt="A bake from The Self Raising Baker" width="1200" height="800" loading="lazy" /></figure>
+      <figure class="tile reveal" data-reactions="23,10,26,26"><img src="assets/photos/oven-07.jpg" alt="A bake from The Self Raising Baker" width="1200" height="800" loading="lazy" /></figure>
+      <figure class="tile reveal tile--tall" data-reactions="28,14,55,24"><img src="assets/photos/oven-08.jpg" alt="A bake from The Self Raising Baker" width="720" height="960" loading="lazy" /></figure>
+      <figure class="tile reveal tile--tall" data-reactions="34,21,44,26"><img src="assets/photos/oven-09.jpg" alt="A bake from The Self Raising Baker" width="720" height="960" loading="lazy" /></figure>
+      <figure class="tile reveal tile--tall" data-reactions="35,32,48,23"><img src="assets/photos/oven-10.jpg" alt="A bake from The Self Raising Baker" width="749" height="1000" loading="lazy" /></figure>
+      <figure class="tile reveal" data-reactions="49,24,48,18"><img src="assets/photos/oven-11.jpg" alt="A bake from The Self Raising Baker" width="960" height="720" loading="lazy" /></figure>
+      <figure class="tile reveal" data-reactions="43,21,33,14"><img src="assets/photos/oven-12.jpg" alt="A bake from The Self Raising Baker" width="960" height="720" loading="lazy" /></figure>
+      <figure class="tile reveal tile--tall" data-reactions="14,13,44,12"><img src="assets/photos/oven-13.jpg" alt="A bake from The Self Raising Baker" width="750" height="1000" loading="lazy" /></figure>
+      <figure class="tile reveal tile--tall" data-reactions="20,28,20,25"><img src="assets/photos/oven-14.jpg" alt="A bake from The Self Raising Baker" width="750" height="1000" loading="lazy" /></figure>
+      <figure class="tile reveal tile--wide" data-reactions="42,30,22,20"><img src="assets/photos/oven-15.jpg" alt="A bake from The Self Raising Baker" width="960" height="540" loading="lazy" /></figure>
+      <figure class="tile reveal tile--xtall" data-reactions="48,23,27,21"><img src="assets/photos/oven-16.jpg" alt="A bake from The Self Raising Baker" width="528" height="960" loading="lazy" /></figure>
+      <figure class="tile reveal tile--xtall" data-reactions="15,22,19,18"><img src="assets/photos/oven-17.jpg" alt="A bake from The Self Raising Baker" width="540" height="960" loading="lazy" /></figure>
+      <figure class="tile reveal tile--xtall" data-reactions="27,20,30,12"><img src="assets/photos/oven-18.jpg" alt="A bake from The Self Raising Baker" width="500" height="750" loading="lazy" /></figure>
+      <figure class="tile reveal tile--tall" data-reactions="16,31,48,7"><img src="assets/photos/oven-19.jpg" alt="A bake from The Self Raising Baker" width="720" height="960" loading="lazy" /></figure>
+      <figure class="tile reveal tile--tall" data-reactions="32,32,20,11"><img src="assets/photos/oven-20.jpg" alt="A bake from The Self Raising Baker" width="740" height="960" loading="lazy" /></figure>
+      <figure class="tile reveal tile--xtall" data-reactions="32,13,50,19"><img src="assets/photos/oven-21.jpg" alt="A bake from The Self Raising Baker" width="581" height="871" loading="lazy" /></figure>
+    </div>
+    <p class="gallery__note reveal" data-reveal="up">
+      Every photo in this gallery is one of Tamsin's own bakes.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ HOW TO ORDER ══════════════ -->
+<section class="section steps" id="how">
+  <div class="wrap">
+    <header class="section__head section__head--center">
+      <p class="kicker reveal" data-reveal="up">How it works</p>
+      <h2 class="h2 reveal" data-reveal="up" data-delay="80">From message to cake stand</h2>
+    </header>
+
+    <ol class="steps__list">
+      <li class="step reveal" data-reveal="up">
+        <span class="step__num">1</span>
+        <h3>Tell us what you need</h3>
+        <p>Use the form below — the occasion, the date, and every allergy we need to work around.</p>
+      </li>
+      <li class="step reveal" data-reveal="up" data-delay="80">
+        <span class="step__num">2</span>
+        <h3>We quote &amp; confirm</h3>
+        <p>You'll get a price, a collection or delivery slot, and a rundown of exactly what goes in.</p>
+      </li>
+      <li class="step reveal" data-reveal="up" data-delay="160">
+        <span class="step__num">3</span>
+        <h3>We bake</h3>
+        <p>Mixed, baked and finished to order in our free-from kitchen. Typically 48 hours' notice.</p>
+      </li>
+      <li class="step reveal" data-reveal="up" data-delay="240">
+        <span class="step__num">4</span>
+        <h3>Collect or receive</h3>
+        <p>Collection in Johannesburg, or local delivery arranged when you order.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════ TESTIMONIALS ══════════════ -->
+<section class="section reviews" id="reviews">
+  <div class="wrap">
+    <header class="section__head section__head--center">
+      <p class="kicker reveal" data-reveal="up">Kind words</p>
+      <h2 class="h2 reveal" data-reveal="up" data-delay="80">What people say</h2>
+    </header>
+
+    <div class="carousel" id="carousel">
+      <div class="carousel__track" id="carouselTrack">
+        <blockquote class="slide is-active">
+          <p>“First birthday cake our daughter could actually eat — and the whole table went back for seconds. Nobody guessed it was gluten and dairy free.”</p>
+          <cite>Michelle R. <span>· Birthday cake</span></cite>
+        </blockquote>
+        <blockquote class="slide">
+          <p>“The biscotti are dangerous. I keep an unopened bag in the cupboard as a decoy and hide the real one.”</p>
+          <cite>Dean P. <span>· Double chocolate biscotti</span></cite>
+        </blockquote>
+        <blockquote class="slide">
+          <p>“My dad is diabetic and usually sits out dessert. Tamsin made him a sugar-free version of the same cake. He had two slices.”</p>
+          <cite>Nadia K. <span>· Diabetic friendly order</span></cite>
+        </blockquote>
+      </div>
+      <div class="carousel__dots" id="carouselDots" role="tablist" aria-label="Testimonials"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FAQ ══════════════ -->
+<section class="section faq" id="faq">
+  <div class="wrap wrap--narrow">
+    <header class="section__head section__head--center">
+      <p class="kicker reveal" data-reveal="up">Good to know</p>
+      <h2 class="h2 reveal" data-reveal="up" data-delay="80">Questions we get a lot</h2>
+    </header>
+
+    <div class="accordion" id="accordion">
+      <details class="acc reveal" data-reveal="up">
+        <summary><span>Are you a completely nut-free kitchen?</span></summary>
+        <div class="acc__body"><p>We bake nut-free by default and can guarantee a nut-free batch when you tell us upfront. Because we handle nuts in some recipes, always flag a nut allergy on your order so we can schedule your bake accordingly.</p></div>
+      </details>
+      <details class="acc reveal" data-reveal="up" data-delay="60">
+        <summary><span>What exactly is free from?</span></summary>
+        <div class="acc__body"><p>Gluten, dairy and egg are kept out of every bake on the menu. Nut free, soy free, sesame free, vegan and no-added-sugar options are available on request — use the filter on the menu, or tell us in the order form.</p></div>
+      </details>
+      <details class="acc reveal" data-reveal="up" data-delay="120">
+        <summary><span>Do you do diabetic friendly and sugar-free?</span></summary>
+        <div class="acc__body"><p>Yes. Most items can be made sugar-reduced or sugar-free using alternatives. Tell us which sweeteners you're comfortable with and we'll work to that.</p></div>
+      </details>
+      <details class="acc reveal" data-reveal="up" data-delay="180">
+        <summary><span>How much notice do you need?</span></summary>
+        <div class="acc__body"><p>Around 48 hours for most orders. Celebration, novelty and wedding cakes should be booked as early as you can — a few weeks is ideal for anything sculpted or tiered.</p></div>
+      </details>
+      <details class="acc reveal" data-reveal="up" data-delay="240">
+        <summary><span>Do you deliver?</span></summary>
+        <div class="acc__body"><p>Collection in Johannesburg, with local delivery arranged when you order. Send us your suburb and we'll quote the delivery with the bake.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ORDER ══════════════ -->
+<section class="section order" id="order">
+  <div class="wrap">
+    <div class="order__grid">
+      <div class="order__intro">
+        <p class="kicker reveal" data-reveal="up">Place an order</p>
+        <h2 class="h2 reveal" data-reveal="up" data-delay="80">Let's get baking</h2>
+        <p class="reveal" data-reveal="up" data-delay="140">
+          Tell us the occasion, the date and every allergy we should design around.
+          We'll come back with a quote — usually within a day.
+        </p>
+
+        <ul class="contact">
+          <li class="reveal" data-reveal="up" data-delay="200">
+            <span class="contact__ico">👩‍🍳</span>
+            <span><b>Tamsin Strydom</b><br /><small>Baker &amp; owner</small></span>
+          </li>
+          <li class="reveal" data-reveal="up" data-delay="240">
+            <span class="contact__ico">✉️</span>
+            <span><a href="mailto:tamsin@theselfraisingbaker.co.za">tamsin@theselfraisingbaker.co.za</a></span>
+          </li>
+          <li class="reveal" data-reveal="up" data-delay="280">
+            <span class="contact__ico">📞</span>
+            <span><a href="tel:+27767388373">076 738 8373</a><br /><small>Call or WhatsApp</small></span>
+          </li>
+          <li class="reveal" data-reveal="up" data-delay="320">
+            <span class="contact__ico">📍</span>
+            <span>Johannesburg, South Africa<br /><small>Collection &amp; local delivery</small></span>
+          </li>
+          <li class="reveal" data-reveal="up" data-delay="360">
+            <span class="contact__ico">👍</span>
+            <span><a href="https://www.facebook.com/theselfraisingbaker" target="_blank" rel="noopener">facebook.com/theselfraisingbaker</a></span>
+          </li>
+        </ul>
+      </div>
+
+      <form class="form reveal" data-reveal="right" id="orderForm" novalidate>
+        <div class="form__row">
+          <div class="field">
+            <input type="text" id="fName" name="name" placeholder=" " required autocomplete="name" />
+            <label for="fName">Your name *</label>
+          </div>
+          <div class="field">
+            <input type="tel" id="fPhone" name="phone" placeholder=" " autocomplete="tel" />
+            <label for="fPhone">Phone / WhatsApp</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <input type="email" id="fEmail" name="email" placeholder=" " required autocomplete="email" />
+          <label for="fEmail">Email address *</label>
+        </div>
+
+        <div class="form__row">
+          <div class="field">
+            <select id="fItem" name="item" required>
+              <option value="" selected disabled></option>
+              <option>Celebration / novelty cake</option>
+              <option>Wedding or tiered cake</option>
+              <option>Cupcakes</option>
+              <option>Meringues</option>
+              <option>Sandwich bread</option>
+              <option>Quiches (gluten free)</option>
+              <option>Quiches (gluten &amp; dairy free)</option>
+              <option>Quiches (traditional)</option>
+              <option>Pie shells</option>
+              <option>Pies — sweet or savoury</option>
+              <option>Double chocolate chip biscotti (R50)</option>
+              <option>Dark chocolate &amp; orange biscotti (R50)</option>
+              <option>Cookies &amp; shortbread</option>
+              <option>Brownies &amp; traybakes</option>
+              <option>Something else</option>
+            </select>
+            <label for="fItem">What would you like? *</label>
+          </div>
+          <div class="field">
+            <input type="date" id="fDate" name="date" placeholder=" " />
+            <label for="fDate">Needed by</label>
+          </div>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend>Allergies &amp; dietary needs</legend>
+          <div class="checks">
+            <label class="check"><input type="checkbox" name="need" value="Gluten free" checked disabled /><span>Gluten free</span></label>
+            <label class="check"><input type="checkbox" name="need" value="Dairy free" checked disabled /><span>Dairy free</span></label>
+            <label class="check"><input type="checkbox" name="need" value="Egg free" checked disabled /><span>Egg free</span></label>
+            <label class="check"><input type="checkbox" name="need" value="Nut free" /><span>Nut free</span></label>
+            <label class="check"><input type="checkbox" name="need" value="Soy free" /><span>Soy free</span></label>
+            <label class="check"><input type="checkbox" name="need" value="Sesame free" /><span>Sesame free</span></label>
+            <label class="check"><input type="checkbox" name="need" value="Vegan" /><span>Vegan</span></label>
+            <label class="check"><input type="checkbox" name="need" value="Diabetic friendly" /><span>Diabetic friendly</span></label>
+            <label class="check"><input type="checkbox" name="need" value="No added sugar" /><span>No added sugar</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <textarea id="fNotes" name="notes" rows="4" placeholder=" "></textarea>
+          <label for="fNotes">Tell us more — occasion, flavours, colours, anything we must avoid</label>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full magnetic" data-ripple id="submitBtn">
+          Send my order request
+        </button>
+
+        <p class="form__note">We'll reply with a quote. No payment is taken on this site.</p>
+
+        <div class="form__success" id="formSuccess" hidden>
+          <div class="form__success-icon">✓</div>
+          <h3>Thank you — your request is ready to send</h3>
+          <p id="successText"></p>
+          <div class="form__success-actions">
+            <button type="button" class="btn btn--primary" id="mailBtn">Open in your email app</button>
+            <button type="button" class="btn btn--ghost" id="againBtn">Edit the request</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="footer__name">The Self Raising Baker</span>
+        <p>For all your baking requirements.</p>
+        <div class="footer__social">
+          <a href="https://www.facebook.com/theselfraisingbaker" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.12-2.41-.12-2.39 0-4.03 1.46-4.03 4.14V9.9H7.5V13h2.76v8h3.24z"/></svg>
+          </a>
+          <a href="mailto:tamsin@theselfraisingbaker.co.za" aria-label="Email">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm0 2.2v.3l9 5.4 9-5.4v-.3l-9 5.4L3 7.2z"/></svg>
+          </a>
+          <a href="tel:+27767388373" aria-label="Call">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.6 10.8c1.2 2.4 3.2 4.4 5.6 5.6l2-2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V19c0 .6-.4 1-1 1-8.3 0-15-6.7-15-15 0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .7-.2 1l-2 2z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer__cols">
+        <div>
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="#menu">Cakes &amp; cupcakes</a></li>
+            <li><a href="#menu">Meringues</a></li>
+            <li><a href="#menu">Quiches &amp; pies</a></li>
+            <li><a href="#menu">Sandwich bread</a></li>
+            <li><a href="#menu">Biscotti</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Free from</h4>
+          <ul>
+            <li>Gluten free</li>
+            <li>Dairy free</li>
+            <li>Egg free</li>
+            <li>Diabetic friendly</li>
+            <li>Nut free on request</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Get in touch</h4>
+          <ul>
+            <li><a href="mailto:tamsin@theselfraisingbaker.co.za">tamsin@theselfraisingbaker.co.za</a></li>
+            <li><a href="tel:+27767388373">076 738 8373</a></li>
+            <li>Johannesburg, South Africa</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© <span id="year"></span> The Self Raising Baker · Baked to order in Johannesburg</p>
+      <p class="footer__credit">Allergen information is given in good faith — always confirm your requirements when ordering.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════ LIGHTBOX ══════════════ -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
+  <img src="" alt="" id="lightboxImg" />
+  <p id="lightboxCap"></p>
+</div>
+
+<button class="totop" id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<!-- Invitation to add the site to a home screen. Stays hidden until the
+     browser says the app can be installed. -->
+<button class="install-app" id="installBtn" type="button" hidden>
+  <span class="install-app__ico" aria-hidden="true">📲</span>
+  <span>Install app</span>
+</button>
+
+<script src="assets/js/main.js" defer></script>
+<script>
+  /* Registers the service worker so the site works offline and can be
+     installed. Silently skipped on browsers without support. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(() => {
+        /* Once the shell is cached, quietly pull the bakes in too so the
+           gallery works offline. Skipped for visitors saving data. */
+        const saveData = navigator.connection && navigator.connection.saveData;
+        if (!saveData) {
+          setTimeout(() => navigator.serviceWorker.controller &&
+                          navigator.serviceWorker.controller.postMessage('warm-photos'), 3000);
+        }
+      }).catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>
